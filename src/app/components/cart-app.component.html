@@ -1,20 +1,29 @@
 <navbar [items]="items" (openEventEmitter)="openCart()" />
 
+
+<h2>Catalogo de productos App!</h2>
+<catalog [products]="products" (productEventEmitter)="onAddCart($event)" />
 <div class="container my-4">
-    <h2>Catalogo de productos App!</h2>
-    <div class="row">
-        <div [className]="showCart? 'col-9': 'col'">
-            <catalog [products]="products" (productEventEmitter)="onAddCart($event)" />
+    @if (showCart) {
+
+    <div class="abrir-modal animacion fadeIn">
+        <div class="modal" style="display: block;" tabindex="-1">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Carro de Compras!</h5>
+                    </div>
+                    <div class="modal-body">
+                        @if (items.length > 0) {
+                            <cart [items]="items" [total]="total" (idProductEventEmitter)="onDeleteCart($event)" />
+                        }@else {
+                            <div class="alert alert-warning">No hay elementos en el carro!</div>
+                        }
+                        <button class="btn btn-secondary float-end" (click)="openCart()">X</button>
+                    </div>
+                </div>
+            </div>
         </div>
-        @if (showCart) {
-        <div class="col-3">
-            <button class="btn btn-secondary float-end" (click)="openCart()">X</button>
-            @if (items.length > 0) {
-            <cart [items]="items" [total]="total" (idProductEventEmitter)="onDeleteCart($event)" />
-            }@else {
-            <div class="alert alert-warning">No hay elementos en el carro!</div>
-            }
-        </div>
-        }
     </div>
+    }
 </div>
